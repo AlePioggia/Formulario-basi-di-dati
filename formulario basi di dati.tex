@@ -16,7 +16,7 @@
 
 \newcommand{\Anegato}{\overline{\text{A}}}
 \newcommand{\Bnegato}{\overline{\text{B}}}
-\newcommand{\Amodificato}{\underbrace{\Anegato}}
+\newcommand{\modificato}{\underset{\sim}}
 
 \begin{document}
 	\large{\title{FORMULE DI BASI DI DATI}}
@@ -155,12 +155,12 @@
 	BM = mappa chiave - valore \\
 	H = hash function \\
 	$t_{i}$.A = valore dell'elemento $\in$ A di una determinata tupla. \\
-	B = n. di bucket \\
-	Z = n. di elementi della bitMap uguali a 0 \\ 
+	B = n. totale di bucket della bitMap \\
+	Z = n. di bucket della bitMap che hanno value = 0 \\ \\ 
 	\textbf{Nota} : \\
 	Ogni elemento $t_{i}$.A sarà presente all'interno della bit-map 
 	BM seguendo la seguente logica: \\ \\
-	if ( t.A == NULL ); then BM[H(t.A)] = 0; \\
+	if ( ${t_{i}.A}$ == NULL ); then BM[H(${t_{i}}$.A)] = 0; \\
 	else then BM[H($t_{i}.A$))] = 1; \\ \\
 	\centerline{\textbf{FORMULA RISOLUTIVA : }} \\
 	\begin{center}
@@ -176,9 +176,9 @@
 	${B - Z = B \cdot P(A)}$ = \textit{stima del n. di bucket pieni} \\ \\
 	${Z = B \cdot P(\Anegato)}$ = \textit{stima del n. di bucket vuoti} \\ \\
 	Successivamente è importante eseguire la seguente approssimazione, applicabile solo nel caso in cui si lavori con valori molto grandi : \\ \\
-	${P(\Anegato) \simeq e^{-\tfrac{NK}{B}}}$ = ${P(\Amodificato)}$ \\ \\
+	${P(\Anegato) \simeq e^{-\tfrac{NK}{B}}}$ = ${P(\modificato{\Anegato})}$ \\ \\
 	di conseguenza Z diventerà : \\ \\
-	${Z = B \cdot P(\Amodificato) = B \cdot e^{-\tfrac{NK}{B}}}$ \\ \\
+	${Z = B \cdot P(\modificato{\Anegato}) = B \cdot e^{-\tfrac{NK}{B}}}$ \\ \\
 	A questo punto, è possibile estrarre NK, il valore cercato. \\ 
 	\begin{center}
 		${NK^{e} = -B*\ln{(\dfrac{Z}{B})}}$  \\ 
