@@ -1,0 +1,151 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[italian]{babel}
+\usepackage{eucal,enumitem}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{tikz}
+\usepackage{cancel} 
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{fancyhdr}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+
+\newcommand{\Anegato}{\overline{\text{A}}}
+\newcommand{\Bnegato}{\overline{\text{B}}}
+
+\begin{document}
+	\large{\title{FORMULE DI BASI DI DATI}}
+	\maketitle
+	\begin{titlepage}
+		\title{{\huge \textbf{FORMULE SUI B-TREE}}}
+		\maketitle\\\\
+		DEFINIZIONE DI B-TREE :	\\
+		Un B-TREE è un albero bilanciato, organizzato a nodi, ogni nodo corrisponde ad un blocco dati di uno storage device \\ \\
+		IMPORTANTE : \\
+		T(g,h) è un albero bilanciato di ordine g e altezza h. Le cardinalità/configurazioni possibili sono rappresentate nella tabella sottostante.
+		Ricordiamo che : |sk| = numero di chiavi selezionate per nodo(nodo != radice). \\ \\
+		\underline{Numero Massimo e minimo di chiavi per ogni nodo o radice:} \\ \\ 
+		\begin{tabular}{|c|c|c|}
+			\hline
+			CHIAVI & MIN & MAX \\
+			\hline
+			Radice & 1 & 2g \\
+			\hline
+			Nodo & g & 2g\\
+			\hline
+		\end{tabular} \\ \\
+		\underline{Numero Massimo e minimo di figli per ogni nodo o radice:} \\ \\ 
+		\begin{tabular}{|c|c|c|}
+			\hline
+			FIGLI & MIN & MAX \\
+			\hline
+			Radice & 0 & 2g+1 \\
+			\hline
+			Nodo & |sk + 1| & |sk + 1|\\
+			\hline
+		\end{tabular}\\ \\ \\
+		\textbf{FORMULE : } \\ \\
+			\underline{NUMERO MINIMO DI NODI(IPmin)} \\ \\
+			\centerline{{\Large {IP\textit{min} = ${1 + 2 \cdot \sum_{i=0}^{h-2}({g + 1})^i}$}}} \\ \\
+			\underline{NUMERO MASSIMO DI NODI(IPmax)} \\ \\
+			\centerline{{\Large {IP\textit{max} = ${\sum_{i=0}^{h-1}({2g + 1})^i}$}}} \\ \\
+			\underline{ALTEZZA DI UN B-TREE} \\ \\
+			NK = \textit{Numero di chiavi del B-TREE} \\ 
+			NK\textit{min} = ${1 + g(IPmin - 1) = 2(g + 1)^{h-1}-1}$ \\
+			NK\textit{max} = ${2g(IPmax) = (2g + 1)^{h}-1}$ \\ 
+			h\textit{min} = ${\log_{2g+1}({NK + 1})}$ \\ 
+			h\textit{max} = ${1 + \log_{g+1}{(\dfrac{NK + 1}{2})}}$ \\ \\
+			\centerline{{\Large h\textit{min} ${\leq}$ h ${\leq}$ h\textit{max}}} \\ \\
+			\underline{COSTO INSERIMENTO/ELIMINAZIONE DI UN NODO DA UN B-TREE(g)} \\ \\
+			\begin{tabular}{|c|c|c|c|}
+				\hline
+				CASO : & MIGLIORE & PEGGIORE & MEDIA \\
+				\hline
+				Inserimento & ${h + 1}$ & ${3h + 1}$ & ${h + 1 + 2/g}$ \\
+				\hline
+				Eliminazione & ${h + 1}$ & ${3h}$ & ${5h + 5 + 3/g}$ \\
+				\hline
+			\end{tabular} \\ \\ \\
+			\underline{STIMA VARIABILITA' DELL'ORDINE DI UN B-TREE} \\ \\
+			\textit{k} = chiave \\
+			\textit{p}  = \textit{RID} = Record Identifier, ovvero puntatore a record \\
+			\textit{q} = \textit{PID} = Puntatore al nodo figlio \\
+			\textit{D} = page size \\ \\
+			${2g*len(k) + 2g*len(p) + (2g+1)*len(q) \leq D}$ \\ \\
+			\centerline{{\Large g = ${\dfrac{D - len(q)}{2(len(k) + len(p) + len(q))}}$}} \\
+	\end{titlepage}
+	\begin{titlepage}
+	\title{{\huge \textbf{FORMULE SUI B+-TREE}}}
+	\maketitle\\\\
+	\\\\
+	DEFINIZIONE DI B+-TREE :	\\
+	Un B+-TREE è un B-TREE in cui i record pointer sono memorizzati solo nei nodi foglia dell'albero. La struttura dei nodi foglia differisce quindi da quella dei nodi interni. 
+	Ha prestazioni migliori del B-TREE sulla ricerca sequenziale, peggiori nella ricerca per singolo valore. \\ \\ \\
+	\underline{ORDINE} \\ \\
+	\textit{k} = chiave \\
+	\textit{q} = \textit{PID} = Puntatore al nodo figlio \\
+	\textit{D} = page size \\ \\
+	${2g*len(k) + (2g+1)*len(q) \leq D}$ \\ \\
+	\centerline{{\Large g = ${\dfrac{D - len(q)}{2(len(k) + len(q))}}$}} \\ \\ \\
+	\underline{NUMERO DI FOGLIE} \\ \\
+	\textit{NR} = Numero di Record \\
+	\textit{NL} = Numero di foglie \\
+	\textit{u} = \% di utilizzo di un singolo nodo (in media è il 69\%) \\
+	\textit{d} = dimensione dei nodi \\ \\
+	\centerline{{\Large NL = ${\dfrac{NR \cdot (len(k) \cdot len(q))}{d \cdot u}}$}} \\ \\
+	\underline{ORDINE DELLE FOGLIE} \\ \\
+	\textit{D} = page size \\ \\
+	${2g_{leaf}*len(k) + 2g_{leaf}*len(p) + (2g_{leaf}+1)*len(q) \leq D}$ \\ \\
+	\centerline{{\Large ${ g_{leaf} = \dfrac{D - len(q)}{2 \cdot (len(k) + len(p))}}$}} \\ \\
+	\textit{Con questo risultato si è in grado di avere una stima più accurata del numero di foglie di un B-+TREE} \\ \\
+	\underline{NUMERO DI FOGLIE (stima più accurata sfruttando ${g_{leaf}}$)} \\ \\
+	\centerline{{\Large NL = ${\dfrac{NR}{2g_{leaf} \cdot u}}$}} \\ \\
+	\underline{ALTEZZA} \\ \\
+	\textit{Costruendo un albero in cui ciascun nodo ha il numero massimo di figli, si minimizza l'altezza del B+-TREE} \\ \\
+	${(2g + 1)^{h - 1} \ge NL}$ \\
+	${h_{min} = 1 + \log_{2g+1}NL}$ \\ \\
+	\textit{Similmente, sfruttando lo stesso ragionamento, costruendo un albero con il numero minimo possibile di figli per nodo, si massimizza l'altezza} \\ \\
+	${2(g + 1)^{h - 2} \leq NL}$ \\ 
+	${h_{max} = 1 + \log_{2g+1}NL}$ \\ \\
+	\centerline{{\Large h\textit{min} ${\leq}$ h ${\leq}$ h\textit{max}}} \\ \\
+	\underline{RICERCA DI VALORI} \\ \\
+	\textit{Supponendo di avere un B-+TREE con NK chiavi in NL foglie, si effettua una ricerca sequenziale di k chiavi nell'intervallo di valori compresi fra [${k_{low}, k_{high}}$]} \\ \\
+	${EK}$ = Numero di chiavi all'interno dell'intervallo [${k_{low}, k_{high}}$] \\
+	${EL}$ = expected leafs, ovvero è una stima del numero di foglie alla quale si deve accedere durante la ricerca \\ \\
+	${EL = \dfrac{EK \cdot NK}{NL}}$ (proporzione -> NK : NL = EK : EL) \\ \\
+	\centerline{{\Large COSTO(Ricerca) = ${1 - h + EL}$}} \\ \\
+	\underline{NUMERO DI FOGLIE DI UN SECONDARY B+-TREE} \\ \\
+	\centerline{${NL = \dfrac{NK \cdot len(k) + NR \cdot len(p)}{D * u}}$}  \\ \\
+	\underline{ALTEZZA DI UN SECONDARY B+-TREE} \\ \\
+	${h_{min} = 1 + \log_{2g+1}min(NL,NK)}$ \\ \\
+	${h_{max} = 2 + \log_{g+1} \dfrac{min(NL, NK)}{2}}$ \\ \\
+	\centerline{{\Large h\textit{min} ${\leq}$ h ${\leq}$ h\textit{max}}} \\ \\
+	\end{titlepage}
+	\begin{titlepage}
+	\title{{\huge \textbf{MODELLO DI CARDENAS}}}
+	\maketitle\\\\
+	\textit{Il modello di Cardenas è utile per stimare il numero medio di pagine NP che contengono almeno uno degli ER(expected records) presi in considerazione.} \\ \\
+	Considerando i seguenti eventi : \\ \\
+	${A}$ = "Una pagina contiene 1 degli ER record" \\
+	${\Anegato}$ = "Una pagina \textbf{non} contiene 1 degli ER record" \\
+	${B}$ = "Una pagina \textbf{non} contiene \textbf{nessuno} degli ER record " \\
+	${\Bnegato}$ = "Una pagina contiene almeno 1 degli ER record" \\ 		
+	Definiamo : \\ \\
+	${P(A) = \dfrac{1}{NP} }$\space \space \space \space \space \space \space \space \space \space \space
+	${P(\Anegato) = 1 - \dfrac{1}{NP}}$ \\ \\
+	${P(B) = P(\Anegato)^{ER}}$ \space \space \space \space \space
+	${P(\Bnegato) = 1 - P(B)}$ \\ \\
+	\textbf{FORMULA DI CARDENAS :} \\ \\
+	${\phi(ER,NP) = NP \cdot P(\Bnegato)}$ \\ \\
+	${= NP * (1 - (1 - \dfrac{1}{NP})^{ER}) \space \leq \space MIN(ER, NP)}$
+	\end{titlepage}
+	\begin{titlepage}
+	\title{{\huge \textbf{QUERY PLAN}}}
+	\maketitle \\ \\
+	\end{titlepage}
+	\author{Alessandro Pioggia}
+\end{document}
