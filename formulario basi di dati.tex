@@ -184,5 +184,85 @@
 		${NK^{e} = -B*\ln{(\dfrac{Z}{B})}}$  \\ 
 	\end{center} 
 	l'apice \textit{e} aggiunto ad NK sta a significare estimated, ovvero il valore stimato, non necessariamente esatto, è stato aggiunto nel risultato per non confonderlo con la costante di Eulero. \\
-	
+	\begin{titlepage}
+		\title{{\huge \textbf{Selettività dei predicati}}} \\ \\
+		${f_{p}}$ = fattore di selettività; \space
+		\maketitle
+		${0 \leq f_{p} \leq 1}$ \\
+		${ER = f_{p} \cdot NR = expectedRecords}$ \\
+		da cui : \\
+		${f_{p} = \tfrac{EK}{ER} = valoriSelezionati/valoriTotali}$ \\ \\
+		\textbf{Casi notevoli} \\ \\
+		\begin{tabular}{|c|c|}
+			\hline 
+			\textbf{Predicato} & \textbf{Formula } \\
+			\hline \\
+			= & ${f_{p} = \tfrac{1}{NK}}$ \\ \\
+			\hline \\
+			IN & ${f_{p} = \tfrac{card(Set)}{NK}}$\\ \\
+			\hline \\ 
+			< & ${f_{p} = \tfrac{v - min(R.A)}{max(R.A) - min(R.A)} \cdot \tfrac{NK - 1}{NK}}$ \\ \\
+			\hline \\
+			BETWEEN & ${f_{p} = \tfrac{v2 - v1}{max(R.A) - min(R.A)} \cdot \tfrac{NK - 1}{NK} + \tfrac{1}{NK}}$ \\
+			\hline
+		\end{tabular} \\ \\ \\
+		\textbf{Predicati composti} \\ \\
+		p = ${(p_{1}}$ AND ${p_{2})}$ $\hookrightarrow$ ${f_{p} = f_{p1} \cdot f_{p2}}$ \\ \\
+		p = ${(p_{1}}$ OR ${p_{2})}$ $\hookrightarrow$ ${f_{p} = f_{p1} + f_{p2} - f_{p1} \cdot f_{p2}}$ \\ \\
+		p = $\overline{p_{1}}$ $\hookrightarrow$ ${f_{p} = 1 - f_{p1}}$
+		\begin{titlepage}
+		\title{\huge \textbf{Costo di un query plan}} \\ \\
+		\maketitle
+		\textbf{full table scan} \\
+		${C(SeqR) = C_{I/O}(SeqR) = NP \cdot \alpha \cdot NR}$ \\
+		\textbf{Generale : IX(A) index scan} \\ 
+		EN + EL + EP + $\alpha$ $\cdot$ ER \\ 
+	\begin{center}
+			\textbf{ \huge Scan con indice clustered} \\
+	\end{center}
+	\begin{center}
+			\textbf{Su singolo valore o range:} \\
+		EN = ${h - 1}$ \\
+		EL = ${f_{p(A)} \cdot NL}$ \\
+		EP = ${f_{p(A)} \cdot NP}$ \\
+	\end{center}
+	\begin{center}
+		\textbf{Sul set :} \\ 
+	EN = ${(h - 1) \cdot EK}$ \\
+	EL = ${EK * \tfrac{NL}{NK}}$ \\
+	EP = ${EK \cdot \tfrac{NP}{NL}}$ \\
+	\end{center}
+	\begin{center}
+		\textbf{ \huge Scan con indice unclustered} \\
+	\end{center}
+		\begin{center}
+			\textbf{Su singolo valore o range : } \\
+		EN = ${h - 1}$ \\
+		EL = ${f_{p} \cdot NL}$ \\
+		EP = ${EK \cdot \phi(\tfrac{NR}{NK},NP)}$ \\
+		\end{center} 
+		\begin{center}
+			\textbf{Su set : } \\
+		EN = ${(h - 1) \cdot EK}$ \ \\
+		EL = ${EK \cdot \tfrac{NL}{NK}}$ \\
+		EP = ${EK \cdot \phi(\tfrac{NR}{NK},NP)}$ \\	
+		\end{center}
+		\end{titlepage}
+		\begin{titlepage}
+		\title{\huge \textbf{Proiezione}} \\ \\
+		\maketitle
+		SELECT DISTINCT <select list> FROM R \\
+		Y = ${{(R.A_{1}, R.A_{2}, ..., R.A_{N})}}$ ( attributi citati nella select list) \\ \\
+		\textbf{Modalità di calcolo di ER(Expected records)} \\ \\
+		$ ER_{\pi_{Y(R)}} = NR_{R} $ (i vari $ NK_{R.A} $ non sono noti, si assume il caso peggiore) \\ \\
+		$ ER_{\pi_{Y(R)}} = NK_{R.A} $(se la proiezione riguarda un solo attributo)  \\\\
+		$ ER_{\pi_{Y(R)}} = min(NR_{r}, \prod_{i}^{} NK_{R.A_{i}}) $(caso peggiore : si assume indipendenza tra gli attributi che fanno parte di Y(non superchiave) \\\\
+		\textbf{fattori di selettività della proiezione} \\ \\
+		$ f_{\pi_{Y(R)}} = 1 $ (se la proiezione contiene una chiave candidata) \\ \\\\
+		$ f_{\pi_{Y(R)}} = \dfrac{NK_{a}}{NR_{R}} $(se la proiezione riguarda un solo attributo A)\\ \\\\
+		$ f_{\pi_{Y(R)}} = \dfrac{min(NR_{r}, \prod_{i}^{} NK_{R.A_{i}})}{NR_{R}} $(si assume indipendenza fra gli attributi) \\ \\
+					
+		\end{titlepage}
+	\end{titlepage}
+
 \end{document}
