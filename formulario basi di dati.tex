@@ -18,6 +18,7 @@
 \newcommand{\Bnegato}{\overline{\text{B}}}
 \newcommand{\modificato}{\underset{\sim}}
 
+
 \begin{document}
 	\large{\title{FORMULE DI BASI DI DATI}}
 	\maketitle
@@ -261,7 +262,38 @@
 		$ f_{\pi_{Y(R)}} = 1 $ (se la proiezione contiene una chiave candidata) \\ \\\\
 		$ f_{\pi_{Y(R)}} = \dfrac{NK_{a}}{NR_{R}} $(se la proiezione riguarda un solo attributo A)\\ \\\\
 		$ f_{\pi_{Y(R)}} = \dfrac{min(NR_{r}, \prod_{i}^{} NK_{R.A_{i}})}{NR_{R}} $(si assume indipendenza fra gli attributi) \\ \\
-					
+		\textbf{cardinalità di una proiezione multi attributo} \\ \\
+		${\phi(NR, NK_{R.A} \cdot NK_{R.B})}$ \\ \\ \\ \\
+		\textbf{Proiezione basata su sorting} \\ \\  
+		1. Full scan di R e creazione della table T, che conterrà gli elementi selezionati dalla select(ResultSet). \\ \\
+		C(seq R and build T) = $ NP_{R} + \alpha \cdot NR_{R} + EP_{T}  $ \\ \\
+		2. Sia $EP_{T}$ il numero stimato di pagine di T e sia $NR_{T} = NR_{R} $ il numero di record di T.
+		Si ordina T usando la combinazione lessicografica di tutti gli attributi. \\  \\
+		$C(sort(EP_{T})) = C_{I/O}(sort(EP_{T})) + C_{CPU}(sort(EP_{T}))$ \\ \\
+		$C_{I/O}(sort(EP_{T})) =  2 \cdot EP_{T} \cdot (1 + \log_{z}(\tfrac{EP_{T}}{(Z + 1) \cdot FS})) $ \\ \\
+		3.Si scandisce T eliminando i duplicati : \\ \\
+		C(seq T) = $ EP_ {T} + \alpha \cdot NR_{T} $
+		\end{titlepage}
+		\begin{titlepage}
+		\title{\huge \textbf{Query di join}} \\ \\ 
+		\maketitle
+		\textbf{ Theta join} \\ \\
+		Assumiamo di avere 2 relazioni, chiamate rispettivamente R ed S. \\ \\
+		$f _{F_{J(R,S)}} = \dfrac{| R \Join S |}{| R \times S |}$ : fattore di selettività senza predicati locali \\ \\
+		$f_{R, S}$ : fattore di selettività della query di join con predicati locali  \\ \\
+		$ER_{q_{R, S}}(Expected Records from q_{r,s}) = f_{R, S} \times NR_{R} \times NR_{S} $ : numero di record risultanti dalla query $q_{R,S}$ \\ \\
+		$ER_{F_{J(R, S)}} = f _{F_{J(R,S)}} \times NR_{R} \times NR_{S}$ : numero di record del risultato di puro join senza predicati locali \\ \\
+		\textbf{Equi-join} \\ \\
+		due relazioni legate da una condizione di uguaglianza \\ \\
+		$f_{P(R.S = R.R)} = \dfrac{1}{max(NK_{R.S}, NK_{R.R})}$ \\ \\
+		\textbf{caso 1 : equi-join su primary e foreign key} \\ \\
+		con $NK_{R.J}$ e $NK_{S.J}$  cardinalità degli attributi R.J e S.J  \\ \\
+		$f_{p(R.J = S.J)} = \dfrac{ER}{NR_{R} \times NR_{S}} = \dfrac{NR_{S}}{NR_{R} \times NR_{S}} = \dfrac{1}{NK_{R.J}} $ \\ \\
+		$ER_{F_{J(R,S)}} = NR_{S}$ (R.J è PK mentre S.J è FK) \\ \\
+		\textbf{caso 2 : equi-join m : n (la stima non è su PK ne su SK)} \\ \\
+		$f_{p(R.J = S.J)} = \dfrac{1}{NK_{R.J}}$ \\ \\
+		$ER_{F_{J(R, S)}} = f_{p(R.J = S.J)} \times NR_{R} \times NR_{S}$
+		
 		\end{titlepage}
 	\end{titlepage}
 
