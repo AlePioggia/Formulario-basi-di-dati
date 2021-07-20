@@ -101,8 +101,8 @@
 	\centerline{{\Large NL = ${\dfrac{NR \cdot (len(k) \cdot len(q))}{d \cdot u}}$}} \\ \\
 	\underline{ORDINE DELLE FOGLIE} \\ \\
 	\textit{D} = page size \\ \\
-	${2g_{leaf}*len(k) + 2g_{leaf}*len(p) + (2g_{leaf}+1)*len(q) \leq D}$ \\ \\
-	\centerline{{\Large ${ g_{leaf} = \dfrac{D - len(q)}{2 \cdot (len(k) + len(p))}}$}} \\ \\
+	${2g_{leaf} \cdot len(k) + 2g_{leaf} \cdot len(p) + 2 \cdot len(q) \leq D}$ \\ \\
+	\centerline{{\Large ${ g_{leaf} = \dfrac{D - 2 \cdot len(q)}{2 \cdot (len(k) + len(p))}}$}} \\ \\
 	\textit{Con questo risultato si è in grado di avere una stima più accurata del numero di foglie di un B-+TREE} \\ \\
 	\underline{NUMERO DI FOGLIE (stima più accurata sfruttando ${g_{leaf}}$)} \\ \\
 	\centerline{{\Large NL = ${\dfrac{NR}{2g_{leaf} \cdot u}}$}} \\ \\
@@ -112,7 +112,7 @@
 	${h_{min} = 1 + \log_{2g+1}NL}$ \\ \\
 	\textit{Similmente, sfruttando lo stesso ragionamento, costruendo un albero con il numero minimo possibile di figli per nodo, si massimizza l'altezza} \\ \\
 	${2(g + 1)^{h - 2} \leq NL}$ \\ 
-	${h_{max} = 1 + \log_{2g+1}NL}$ \\ \\
+	${h_{max} = 2 + \log_{2g+1}\tfrac{NL}{2}}$ \\ \\
 	\centerline{{\Large h\textit{min} ${\leq}$ h ${\leq}$ h\textit{max}}} \\ \\
 	\underline{RICERCA DI VALORI} \\ \\
 	\textit{Supponendo di avere un B-+TREE con NK chiavi in NL foglie, si effettua una ricerca sequenziale di k chiavi nell'intervallo di valori compresi fra [${k_{low}, k_{high}}$]} \\ \\
